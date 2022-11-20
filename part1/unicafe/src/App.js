@@ -9,11 +9,18 @@ const Button = ({ text, handleClick }) => {
 };
 
 const Statistic = ({ result }) => {
+  const total = result.good + result.neutral + result.bad;
+  const average = total === 0 ? 0 : (result.good * 1 + result.bad * -1) / total;
+  const positive = total === 0 ? 0 : (result.good / total) * 100;
+
   return (
     <div>
       <p>Good {result.good}</p>
       <p>Neutral {result.neutral}</p>
       <p>Bad {result.bad}</p>
+      <p>all {total}</p>
+      <p>average {average}</p>
+      <p>positive {positive} %</p>
     </div>
   );
 };
