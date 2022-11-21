@@ -1,5 +1,9 @@
 import { useState } from "react";
 
+const Header = ({ text }) => {
+  return <h1>{text}</h1>;
+};
+
 const App = () => {
   const anecdotes = [
     "If it hurts, do it more often.",
@@ -19,23 +23,40 @@ const App = () => {
     setSelected(nextQuoteIndex);
   };
 
-  const handleVoteClick = () => {
-    console.log(selected);
-    if (votes.hasOwnProperty(selected)) {
-      setVotes({ ...votes, [selected]: votes[selected] + 1 });
-    } else {
-      setVotes({ ...votes, [selected]: 1 });
+  const getMostVoted = (votes) => {
+    let maxVote = -1;
+    let mostVotedAnectode = anecdotes[0];
+
+    for (const [key, value] of Object.entries(votes)) {
+      if (value > maxVote) {
+        mostVotedAnectode = anecdotes[key];
+        maxVote = value;
+      }
     }
 
-    console.log(votes);
+    return mostVotedAnectode;
+  };
+
+  const handleVoteClick = () => {
+    let newVotes = {};
+    if (votes.hasOwnProperty(selected)) {
+      newVotes = { ...votes, [selected]: votes[selected] + 1 };
+    } else {
+      newVotes = { ...votes, [selected]: 1 };
+    }
+
+    setVotes(newVotes);
   };
 
   return (
     <div>
+      <Header text={"Anecdote of the day"} />
       <div>{anecdotes[selected]}</div>
       <div>Has {votes[selected] || 0} votes</div>
       <button onClick={handleVoteClick}>Vote</button>
       <button onClick={handleNextQuoteClick}>Get Random Quote</button>
+      <Header text={"Anecdote with most votes"} />
+      <div>{getMostVoted(votes)}</div>
     </div>
   );
 };
