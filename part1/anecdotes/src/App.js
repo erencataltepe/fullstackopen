@@ -12,16 +12,30 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState({});
 
-  const handleClick = () => {
+  const handleNextQuoteClick = () => {
     const nextQuoteIndex = Math.floor(Math.random() * anecdotes.length);
     setSelected(nextQuoteIndex);
+  };
+
+  const handleVoteClick = () => {
+    console.log(selected);
+    if (votes.hasOwnProperty(selected)) {
+      setVotes({ ...votes, [selected]: votes[selected] + 1 });
+    } else {
+      setVotes({ ...votes, [selected]: 1 });
+    }
+
+    console.log(votes);
   };
 
   return (
     <div>
       <div>{anecdotes[selected]}</div>
-      <button onClick={handleClick}>Get Random Quote</button>
+      <div>Has {votes[selected] || 0} votes</div>
+      <button onClick={handleVoteClick}>Vote</button>
+      <button onClick={handleNextQuoteClick}>Get Random Quote</button>
     </div>
   );
 };
