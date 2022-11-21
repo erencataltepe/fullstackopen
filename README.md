@@ -16,3 +16,4 @@ The course involves modern JavaScript technologies such as:
 The course is divided into 13 sections. On this repo you can find these sections in seperate folders.
 
 - ## Part 0 [Fundametals of Web Apps](https://github.com/erencataltepe/fullstackopen/tree/main/part0)
+- ## Part 1 [Introduction to React](https://github.com/erencataltepe/fullstackopen/tree/main/part1)
