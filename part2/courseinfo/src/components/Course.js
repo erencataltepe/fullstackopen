@@ -5,7 +5,7 @@ function Course({ course }) {
   return (
     <div>
       <Header text={course.name} />
-      <Content parts={course.parts} />
+      <Content parts={course.parts} courseId={course.id} />
     </div>
   );
 }

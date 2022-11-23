@@ -1,7 +1,7 @@
 import Part from "./Part";
 import Total from "./Total";
 
-const Content = ({ parts }) => {
+const Content = ({ parts, courseId }) => {
   const total = parts.reduce((total, part) => {
     return part.exercises + total;
   }, 0);
