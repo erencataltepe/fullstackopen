@@ -1,6 +1,11 @@
 import Part from "./Part";
+import Total from "./Total";
 
 const Content = ({ parts }) => {
+  const total = parts.reduce((total, part) => {
+    return part.exercises + total;
+  }, 0);
+
   return (
     <div>
       {parts.map((part) => {
@@ -8,6 +13,7 @@ const Content = ({ parts }) => {
           <Part key={part.id} name={part.name} exercises={part.exercises} />
         );
       })}
+      <Total total={total} />
     </div>
   );
 };
