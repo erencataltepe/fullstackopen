@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import Result from "./components/Result";
+import Search from "./components/Search";
 import axios from "axios";
 
 function App() {
   const [searchText, setSearchText] = useState("");
   const [countries, setCountries] = useState([]);
   const [result, setResult] = useState([]);
+  const [showCountry, setShowCountry] = useState("");
 
   useEffect(() => {
     axios
@@ -14,6 +16,7 @@ function App() {
   }, []);
 
   const handleSearchTextChannge = (e) => {
+    setShowCountry("");
     setSearchText(e.target.value);
     if (e.target.value !== "") {
       const newList = countries.filter((country) => {
@@ -27,18 +30,26 @@ function App() {
     }
   };
 
+  const handleShowButton = (e) => {
+    const country = result.find(
+      (data) => data.area === Number(e.target.dataset.key)
+    );
+    setShowCountry(country);
+  };
+
   return (
     <div>
+      <Search
+        id="countries"
+        searchText={searchText}
+        handleSearchTextChannge={handleSearchTextChannge}
+      />
       <div>
-        <label htmlFor="countries">Find countries: </label>
-        <input
-          id="countries"
-          value={searchText}
-          onChange={handleSearchTextChannge}
+        <Result
+          resultList={result}
+          handleShowButton={handleShowButton}
+          showCountry={showCountry}
         />
-      </div>
-      <div>
-        <Result resultList={result} />
       </div>
     </div>
   );
