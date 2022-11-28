@@ -3,6 +3,7 @@ import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import PersonService from "./services/personService";
+import ConfirmMessage from "./components/ConfirmMessage";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,6 +12,7 @@ const App = () => {
   const [filterName, setFilterName] = useState("");
   const [isFiltered, setIsFiltered] = useState(false);
   const [filteredPersons, setFilteredPersons] = useState([]);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     PersonService.getAll().then((response) => setPersons(response));
@@ -58,6 +60,10 @@ const App = () => {
         setPersons([...persons, response]);
         setNewName("");
         setNewNumber("");
+        setMessage(`Added ${addedPerson.name}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
       });
     } else {
       if (
@@ -88,6 +94,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <ConfirmMessage message={message} />
       <Filter
         filterName={filterName}
         handleFilterNameChange={handleFilterNameChange}
