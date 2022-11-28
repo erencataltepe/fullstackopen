@@ -49,16 +49,39 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault();
     const addedPerson = { name: newName, number: newNumber };
-    if (!persons.find((person) => person.name === addedPerson.name)) {
+    if (
+      !persons.find(
+        (person) => person.name.toLowerCase() === addedPerson.name.toLowerCase()
+      )
+    ) {
       PersonService.addPerson(addedPerson).then((response) => {
         setPersons([...persons, response]);
         setNewName("");
         setNewNumber("");
       });
     } else {
-      alert(`${addedPerson.name} is already added to the phonebook.`);
-      setNewName("");
-      setNewNumber("");
+      if (
+        window.confirm(
+          `${addedPerson.name} is already added to the phonebook. Do you want to replace the old number with a new one?`
+        )
+      ) {
+        const targetPerson = persons.find(
+          (person) =>
+            person.name.toLowerCase() === addedPerson.name.toLowerCase()
+        );
+
+        const updatedPerson = { ...targetPerson, number: newNumber };
+        PersonService.updatePerson(updatedPerson).then((data) => {
+          setPersons(
+            persons.map((person) => (person.id !== data.id ? person : data))
+          );
+        });
+        setNewName("");
+        setNewNumber("");
+      } else {
+        setNewName("");
+        setNewNumber("");
+      }
     }
   };
 

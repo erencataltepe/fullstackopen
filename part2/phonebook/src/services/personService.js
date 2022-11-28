@@ -11,11 +11,16 @@ const addPerson = (person) => {
 };
 
 const removePerson = (id) => {
-  console.log(id);
   return axios
     .delete(`${baseUrl}/${id}`)
     .then((response) => console.log(response.data));
 };
 
+const updatePerson = (person) => {
+  return axios
+    .put(`${baseUrl}/${person.id}`, person)
+    .then((response) => response.data);
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, addPerson, removePerson };
+export default { getAll, addPerson, removePerson, updatePerson };
