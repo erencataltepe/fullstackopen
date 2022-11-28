@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import PersonService from "./services/persons";
+import PersonService from "./services/personService";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -35,6 +35,14 @@ const App = () => {
         return person.name.toLowerCase().includes(e.target.value.toLowerCase());
       });
       setFilteredPersons(newList);
+    }
+  };
+
+  const handleRemovePersonButton = (e) => {
+    if (window.confirm("Do you want to delete this person?")) {
+      PersonService.removePerson(e.target.dataset.key).then((r) =>
+        PersonService.getAll().then((response) => setPersons(response))
+      );
     }
   };
 
@@ -74,6 +82,7 @@ const App = () => {
         isFiltered={isFiltered}
         persons={persons}
         filteredPersons={filteredPersons}
+        handleRemovePersonButton={handleRemovePersonButton}
       />
     </div>
   );
