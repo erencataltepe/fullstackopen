@@ -4,3 +4,10 @@
   color: green;
   font-size: 40px;
 }
+
+.error-message {
+  border: 5px solid red;
+  background-color: lightgray;
+  color: red;
+  font-size: 40px;
+}

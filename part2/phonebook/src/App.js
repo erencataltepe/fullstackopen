@@ -60,7 +60,7 @@ const App = () => {
         setPersons([...persons, response]);
         setNewName("");
         setNewNumber("");
-        setMessage(`Added ${addedPerson.name}`);
+        setMessage({ text: `Added ${addedPerson.name}`, isError: false });
         setTimeout(() => {
           setMessage(null);
         }, 3000);
@@ -77,11 +77,21 @@ const App = () => {
         );
 
         const updatedPerson = { ...targetPerson, number: newNumber };
-        PersonService.updatePerson(updatedPerson).then((data) => {
-          setPersons(
-            persons.map((person) => (person.id !== data.id ? person : data))
-          );
-        });
+        PersonService.updatePerson(updatedPerson)
+          .then((data) => {
+            setPersons(
+              persons.map((person) => (person.id !== data.id ? person : data))
+            );
+          })
+          .catch((e) => {
+            setMessage({
+              text: `Information of ${updatedPerson.name} has already been removed from server`,
+              isError: true,
+            });
+            setTimeout(() => {
+              setMessage(null);
+            }, 3000);
+          });
         setNewName("");
         setNewNumber("");
       } else {
