@@ -44,9 +44,14 @@ const App = () => {
     e.preventDefault();
     const addedPerson = { name: newName, number: newNumber };
     if (!persons.find((person) => person.name === addedPerson.name)) {
-      setPersons([...persons, addedPerson]);
-      setNewName("");
-      setNewNumber("");
+      axios
+        .post("http://localhost:3001/persons", addedPerson)
+        .then((response) => {
+          console.log(response.data);
+          setPersons([...persons, addedPerson]);
+          setNewName("");
+          setNewNumber("");
+        });
     } else {
       alert(`${addedPerson.name} is already added to the phonebook.`);
       setNewName("");
